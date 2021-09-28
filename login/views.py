@@ -45,7 +45,7 @@ def login(request):
     if 'user_id' in request.session:
         return redirect('/travels')
 
-    user = User.objects.filter(user_name=request.POST['user_name'].lower())
+    user = User.objects.filter(user_name=request.POST['user_name'])
     errors = User.objects.login_validator(request.POST['password'], user)
 
     if len(errors) > 0:

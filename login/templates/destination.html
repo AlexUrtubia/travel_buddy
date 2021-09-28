@@ -22,10 +22,18 @@
                 <h4>Travel date from: </h4>{{travel.start_date}}
                 <h4>Travel date to: </h4>{{travel.end_date}}
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-
+        </div><br><br><br>
+        <div class="row justify-content-between">
+            <div class="col-8">
+                <h4>Other User's joining the trip</h4>
+                <ul>
+                    {% for user in other_users %}
+                    <li>{{ user.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-4 text-right align-self-end">
+                <a href="{% url 'travels' %}">Back to travels</a>
             </div>
         </div>
     </div>

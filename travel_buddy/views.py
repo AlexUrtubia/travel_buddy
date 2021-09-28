@@ -12,8 +12,8 @@ def travels(request):
 
     context = {
         'active_user': User.objects.get(id=request.session['user_id']),
-        'travel_list': Travel.objects.filter(user__id = request.session['user_id']).order_by('start_date'),
-        'all_travels': Travel.objects.all().exclude(user__id = request.session['user_id']),
+        'travel_list': Travel.objects.filter(joined = request.session['user_id']).order_by('start_date'),
+        'all_travels': Travel.objects.all().exclude(joined = request.session['user_id']),
     }
     return render(request, 'travels.html', context)
 
@@ -55,13 +55,15 @@ def new_travel(request):
                 messages.error(request, msg)
             return redirect('/travels/add')
     else:
-        Travel.objects.create(
+        travel = Travel.objects.create(
             destination = request.POST['destination'],
             plan=request.POST['plan'],
             start_date = comp_date,
             end_date = comp_date2,
             user = active_user,
         )
+        travel.joined.add(User.objects.get(id=request.session['user_id']))
+        travel.save()
         return redirect('/travels')
 
 
@@ -71,10 +73,13 @@ def view_travel(request, travel_id):
     context = {
         'user': User.objects.get(id=request.session['user_id']),
         'travel': Travel.objects.get(id = travel_id),
-        # 'other_users': Travel.objects.filter(id=travel_id).joined.all(),
+        'other_users': User.objects.filter(join=travel_id).exclude(id=request.session['user_id']),
     }
     return render(request, 'destination.html', context)
 
 
-def add_user(request, user_id):
-    pass
+def user_join(request, travel_id):
+    travel = Travel.objects.get(id=travel_id)
+    travel.joined.add(User.objects.get(id=request.session['user_id']))
+    travel.save()
+    return redirect('/travels')

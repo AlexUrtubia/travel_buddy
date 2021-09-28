@@ -6,4 +6,5 @@ urlpatterns = [
     path('add', views.add_travel, name='add_travel'),
     path('new_travel', views.new_travel, name='new_travel'),
     path('destination/<int:travel_id>', views.view_travel, name='view_travel'),
+    path('join/<int:travel_id>', views.user_join, name='user_join'),
 ]
