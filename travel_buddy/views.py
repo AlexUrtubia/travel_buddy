@@ -71,14 +71,17 @@ def view_travel(request, travel_id):
     if 'user_id' not in request.session:
         return redirect('/')
     context = {
-        'user': User.objects.get(id=request.session['user_id']),
+        'user': User.objects.get(travels=(Travel.objects.get(id = travel_id))),
         'travel': Travel.objects.get(id = travel_id),
-        'other_users': User.objects.filter(join=travel_id).exclude(id=request.session['user_id']),
+        'other_users': User.objects.filter(join=travel_id).exclude(travels=(Travel.objects.get(id = travel_id))),
     }
+
     return render(request, 'destination.html', context)
 
 
 def user_join(request, travel_id):
+    if 'user_id' not in request.session:
+        return redirect('/')
     travel = Travel.objects.get(id=travel_id)
     travel.joined.add(User.objects.get(id=request.session['user_id']))
     travel.save()

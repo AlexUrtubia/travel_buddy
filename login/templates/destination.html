@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col">
                 <h1>{{travel.destination}}</h1><br><br>
-                <h4>Planed by: </h4> {{user.name}}
+                <h4>Planed by: </h4> {{user.name}}</h4><br>
                 <h4>Description: </h4>{{travel.plan}}
                 <h4>Travel date from: </h4>{{travel.start_date}}
                 <h4>Travel date to: </h4>{{travel.end_date}}
@@ -27,8 +27,8 @@
             <div class="col-8">
                 <h4>Other User's joining the trip</h4>
                 <ul>
-                    {% for user in other_users %}
-                    <li>{{ user.name }}</li>
+                    {% for o_user in other_users %}
+                    <li>{{ o_user.name }}</li>
                     {% endfor %}
                 </ul>
             </div>
